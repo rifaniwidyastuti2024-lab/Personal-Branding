@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BrandUp — AI untuk Personal Branding</title>
+<style>
+:root{--ink:#3a0d2c;--mut:#7d5a70;--bg:#fff4f9;--card:#fff;--pink:#d6246e;--pink2:#ff6fae;--soft:#ffdcec;--deep:#6d1048;--ok:#1e9e6a;--warn:#e08a00;--bad:#d3342f;--line:#f5cfe1}
+*{box-sizing:border-box}html,body{margin:0}body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:radial-gradient(circle at 95% -5%,#ffc4de 0,transparent 38%),radial-gradient(circle at 0 100%,#ffd9ea 0,transparent 36%),var(--bg);background-attachment:fixed;color:var(--ink);line-height:1.55}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;margin:0 0 .4em;line-height:1.2}h1{font-size:1.9rem}h2{font-size:1.25rem}h3{font-size:1.05rem}
+.app{display:flex;min-height:100vh}
+aside{width:270px;background:linear-gradient(175deg,#5a0b3d,#b0155d 55%,#ff5fa2);color:#fff;padding:24px 14px;position:sticky;top:0;height:100vh;flex-shrink:0;overflow-y:auto;border-radius:0 28px 28px 0;box-shadow:6px 0 30px rgba(214,36,110,.25);z-index:60;display:flex;flex-direction:column}
+aside::before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08);top:-70px;right:-80px;pointer-events:none}
+.logo{font-family:Georgia,serif;font-size:1.65rem;padding:0 10px 20px;display:flex;align-items:center;gap:10px;position:relative}.logo i{font-style:normal;background:#fff;width:40px;height:40px;border-radius:14px;display:grid;place-items:center;font-size:1.3rem;box-shadow:0 4px 14px rgba(0,0,0,.2)}.logo small{display:block;font:.72rem system-ui;opacity:.85}
+aside button{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:none;border:0;color:#ffe6f1;padding:10px 12px;border-radius:16px;font:inherit;cursor:pointer;margin-bottom:5px;position:relative;transition:.15s}
+aside button span{width:34px;height:34px;border-radius:12px;background:rgba(255,255,255,.16);display:grid;place-items:center;flex-shrink:0}
+aside button:hover{background:rgba(255,255,255,.16);transform:translateX(3px)}aside button.on{background:#fff;color:var(--deep);font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.18)}aside button.on span{background:var(--soft)}
+.sfoot{margin-top:auto;background:rgba(255,255,255,.15);border-radius:18px;padding:14px;font-size:.82rem;position:relative}.sfoot .bar{background:rgba(255,255,255,.25)}.sfoot .bar i{background:#fff}
+.menu{display:none;position:fixed;top:12px;left:12px;z-index:45;width:46px;height:46px;border-radius:16px;border:0;background:linear-gradient(135deg,var(--pink),var(--pink2));color:#fff;font-size:1.4rem;box-shadow:0 6px 18px rgba(214,36,110,.4);cursor:pointer}
+#ov{display:none;position:fixed;inset:0;background:rgba(58,13,44,.5);z-index:55;backdrop-filter:blur(2px)}
+main{flex:1;padding:26px;max-width:1000px;margin:0 auto;width:100%;min-width:0}
+.demo{background:#fff;border:1px dashed var(--pink2);color:var(--deep);padding:9px 14px;border-radius:12px;font-size:.84rem;margin-bottom:18px}
+.card{background:var(--card);border-radius:22px;padding:22px;box-shadow:0 4px 18px rgba(214,36,110,.10);margin-bottom:16px;border:1px solid var(--line);border-top:3px solid var(--pink2);transition:.2s}.card:hover{box-shadow:0 10px 28px rgba(214,36,110,.18)}
+.hero{background:linear-gradient(120deg,#c2185b,var(--pink2) 80%,#ffa6cd);color:#fff;border:0;position:relative;overflow:hidden;padding:30px}.hero::after{content:"♥";position:absolute;right:22px;top:-10px;font-size:9rem;opacity:.16}.hero h1{font-size:2.2rem}.hero p{margin:.2em 0;opacity:.95}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.g2{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+label{display:block;font-weight:600;font-size:.88rem;margin:12px 0 4px}.hint{font-weight:400;color:var(--mut);font-size:.78rem}
+input,select,textarea{width:100%;font:inherit;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+textarea{min-height:92px;resize:vertical}input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid var(--soft);border-color:var(--pink)}
+input:disabled,select:disabled,textarea:disabled{background:#fbeef4;color:#5b3a4e}
+.chk{display:flex;flex-wrap:wrap;gap:8px}.chk label{display:flex;gap:6px;align-items:center;margin:0;font-weight:500;background:var(--bg);padding:7px 12px;border-radius:99px;border:1px solid var(--line)}.chk input{width:auto}
+.btn{background:var(--pink);color:#fff;border:0;padding:10px 18px;border-radius:12px;font:inherit;font-weight:600;cursor:pointer;margin:12px 8px 0 0;transition:.15s}
+.btn:hover{background:var(--deep);transform:translateY(-1px)}.btn:active{transform:none}.btn.alt{background:var(--soft);color:var(--deep)}.btn.alt:hover{background:#ffc4de}.btn.danger{background:var(--bad)}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.big{font-family:Georgia,serif;font-size:2.3rem;color:var(--pink);line-height:1}.mut{color:var(--mut);font-size:.88rem}
+.bar{height:10px;background:var(--soft);border-radius:9px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pink2),var(--pink));border-radius:9px}
+.empty{text-align:center;padding:26px;color:var(--mut);border:2px dashed var(--line);border-radius:16px;background:#fff}
+.tag{display:inline-block;background:var(--soft);color:var(--deep);padding:3px 11px;border-radius:99px;font-size:.78rem;margin:2px}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.item{padding:12px;border:1px solid var(--line);border-radius:14px;margin-bottom:8px;background:#fffafd}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.err{color:var(--bad);font-size:.8rem;margin-top:3px}
+#toast{position:fixed;right:16px;bottom:78px;display:flex;flex-direction:column;gap:8px;z-index:50}
+#toast div{background:var(--deep);color:#fff;padding:11px 16px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.2);max-width:320px;font-size:.9rem}#toast .err2{background:var(--bad)}
+#bnav{display:none}
+#top{display:none}
+@media(max-width:820px){aside{display:none}main{padding:0 14px 110px}h1{font-size:1.5rem}.hero h1{font-size:1.7rem}.hero{padding:24px}
+#top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 -14px 16px;padding:14px 18px;background:linear-gradient(120deg,#8e0f55,var(--pink) 60%,var(--pink2));color:#fff;border-radius:0 0 26px 26px;box-shadow:0 8px 22px rgba(214,36,110,.3);position:sticky;top:0;z-index:30}
+#top b{font-family:Georgia,serif;font-size:1.3rem;display:flex;align-items:center;gap:8px}#top small{display:block;font:.68rem system-ui;opacity:.85}
+#top em{font-style:normal;background:rgba(255,255,255,.22);padding:5px 12px;border-radius:99px;font-size:.78rem;white-space:nowrap}
+#bnav{display:flex;gap:4px;position:fixed;left:10px;right:10px;bottom:10px;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-radius:28px;padding:7px;box-shadow:0 10px 32px rgba(214,36,110,.35);border:1px solid var(--line);overflow-x:auto;scrollbar-width:none;z-index:40;scroll-behavior:smooth}#bnav::-webkit-scrollbar{display:none}
+#bnav button{flex:0 0 auto;min-width:66px;background:none;border:0;font:600 .66rem system-ui;color:var(--mut);padding:7px 6px;border-radius:20px;cursor:pointer;transition:.2s}
+#bnav button span{display:block;font-size:1.3rem;transition:.2s}
+#bnav button.on{background:linear-gradient(135deg,var(--pink),var(--pink2));color:#fff;box-shadow:0 5px 14px rgba(214,36,110,.45);min-width:86px}#bnav button.on span{transform:translateY(-2px) scale(1.15)}
+#toast{bottom:96px;left:14px;right:14px;align-items:center}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app"><aside id="side"></aside>
+<main><div id="top"></div><div id="view"></div></main></div>
+<nav id="bnav"></nav><div id="toast"></div>
+<script>
+/* ===== Data & utilitas ===== */
+const KEY='brandup.v1';
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const L=s=>String(s||'').split(/[,\n;]+/).map(x=>x.trim()).filter(Boolean);
+const lc=s=>String(s||'').toLowerCase();
+const cap=s=>s?s[0].toUpperCase()+s.slice(1):s;
+const blank=()=>({profile:null,identity:null,drafts:[],sessions:[],evaluation:null,seed:0});
+let S=load();
+function load(){try{const d=JSON.parse(localStorage.getItem(KEY));return d&&typeof d==='object'?Object.assign(blank(),d):blank()}catch(e){return blank()}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));return true}catch(e){toast('Gagal menyimpan: penyimpanan browser penuh atau dinonaktifkan.',1);return false}}
+function toast(m,bad){const t=document.createElement('div');if(bad)t.className='err2';t.textContent=m;document.getElementById('toast').appendChild(t);setTimeout(()=>t.remove(),3200)}
+const fn=()=>S.profile.nama.trim().split(/\s+/)[0];
+const pick=(a,k=0)=>a[(S.seed+k)%a.length];
+const sig=p=>JSON.stringify(p);
+const $=id=>document.getElementById(id);
+const val=id=>($(id)?$(id).value.trim():'');
+function copyText(t){if(!t)return toast('Tidak ada teks untuk disalin.',1);
+ const fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}a.remove();toast(ok?'Teks berhasil disalin.':'Gagal menyalin. Blok teks lalu salin manual.',!ok)};
+ if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(()=>toast('Teks berhasil disalin.'),fb);else fb()}
+const needProfile=()=>`<div class="empty"><h3>Profil belum lengkap</h3><p>Isi dan simpan <b>Profil Saya</b> terlebih dahulu agar fitur ini dapat membuat hasil yang sesuai denganmu.</p><button class="btn" onclick="go('profil')">Isi Profil Saya</button></div>`;
+const completeness=()=>{const p=S.profile;if(!p)return 0;const k=['nama','status','bidang','pendidikan','pengalaman','skill','minat','unik','audiens','tujuan','gaya'];let n=k.filter(x=>p[x]&&String(p[x]).trim()).length+(p.platform&&p.platform.length?1:0);return Math.round(n/12*100)};
+
+/* ===== Navigasi ===== */
+const PAGES=[['dashboard','🏠','Dashboard'],['profil','👤','Profil Saya'],['identitas','✨','Identitas Profesional'],['studio','📝','Studio Konten'],['wawancara','🎤','Simulasi Wawancara'],['evaluasi','📊','Evaluasi Personal Branding'],['pengaturan','⚙️','Pengaturan']];
+const SHORT={dashboard:'Beranda',pengaturan:'Atur',identitas:'Identitas',studio:'Konten',wawancara:'Wawancara',evaluasi:'Evaluasi',profil:'Profil'};
+let cur='dashboard';
+function toggleMenu(f){document.body.classList.toggle('open',f)}
+function go(id){toggleMenu(false);cur=id;history.replaceState(null,'','#'+id);render();window.scrollTo(0,0)}
+function nav(){const c=completeness();$('bnav').innerHTML=PAGES.map(p=>`<button class="${p[0]===cur?'on':''}" onclick="go('${p[0]}')"><span>${p[1]}</span>${SHORT[p[0]]||p[2]}</button>`).join('');$('top').innerHTML=`<b><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><circle cx="11" cy="8" r="4" fill="#fff"/><path d="M3 21c0-4.4 3.6-7 8-7s8 2.6 8 7z" fill="#fff"/><path d="M19 2l.9 2.1L22 5l-2.1.9L19 8l-.9-2.1L16 5l2.1-.9z" fill="#ffd0e6"/></svg> BrandUp</b><em>Profil ${c}%</em>`;const ac=document.querySelector('#bnav .on');if(ac)$('bnav').scrollLeft=ac.offsetLeft-90;$('side').innerHTML='<div class="logo"><i><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><circle cx="11" cy="8" r="4" fill="#d6246e"/><path d="M3 21c0-4.4 3.6-7 8-7s8 2.6 8 7z" fill="#d6246e"/><path d="M19 2l.9 2.1L22 5l-2.1.9L19 8l-.9-2.1L16 5l2.1-.9z" fill="#ff6fae"/></svg></i><div>BrandUp</div></div>'+PAGES.map(p=>`<button class="${p[0]===cur?'on':''}" onclick="go('${p[0]}')"><span>${p[1]}</span>${p[2]}</button>`).join('')+`<div class="sfoot">Kelengkapan profil <b>${c}%</b><div class="bar"><i style="width:${c}%"></i></div>${S.profile?'Halo, '+esc(fn())+'!':'Mulai dari Profil Saya'}</div>`}
+function render(){nav();$('view').innerHTML=({dashboard:vDash,profil:vProfil,identitas:vId,studio:vStudio,wawancara:vIv,evaluasi:vEval,pengaturan:vSet})[cur]()}
+
+/* ===== Dashboard ===== */
+function vDash(){const p=S.profile,c=completeness(),ev=S.evaluation,ss=S.sessions;
+ const nxt=[];if(!p)nxt.push(['Lengkapi dan simpan Profil Saya','profil']);else{if(c<100)nxt.push(['Lengkapi profil yang masih kosong ('+c+'%)','profil'])}
+ if(p&&!S.identity)nxt.push(['Buat dan simpan Identitas Profesional','identitas']);
+ if(S.identity&&S.drafts.length<3)nxt.push(['Simpan minimal 3 draf konten di Studio Konten','studio']);
+ if(p&&!ss.length)nxt.push(['Latihan wawancara pertamamu','wawancara']);
+ if(p&&!ev)nxt.push(['Jalankan Evaluasi Personal Branding','evaluasi']);
+ if(ev&&ev.items){ev.items.filter(i=>i.score===null).forEach(i=>nxt.push(['Data untuk "'+i.label+'" belum cukup: '+i.why,'evaluasi']));const w=ev.items.filter(i=>i.score!==null).sort((a,b)=>a.score-b.score)[0];if(w&&w.score<75)nxt.push(['Perbaiki "'+w.label+'": '+w.tip,'evaluasi'])}
+ if(p&&S.identity&&S.identity.sig!==sig(p))nxt.push(['Profil berubah sejak identitas dibuat — perbarui hasil jika perlu','identitas']);
+ const avg=ss.length?Math.round(ss.reduce((a,s)=>a+s.avg,0)/ss.length):null;
+ return `<div class="card hero"><h1>${p?'Halo, '+esc(fn())+'!':'Selamat datang di BrandUp'}</h1><p>${p?esc(p.status)+' · '+esc(p.bidang):'Bangun identitas dan citra profesionalmu langkah demi langkah.'}</p><p>${p?'Tujuan: '+esc(p.tujuan):'Mulailah dari mengisi Profil Saya.'}</p></div>
+ <div class="grid"><div class="card"><h3>Kelengkapan profil</h3><div class="big">${c}%</div><div class="bar"><i style="width:${c}%"></i></div><span class="mut">${p?'Profil tersimpan':'Belum ada profil tersimpan'}</span></div>
+ <div class="card"><h3>Identitas profesional</h3>${S.identity?`<p class="mut">“${esc(S.identity.tagline)}”</p><p>${esc(S.identity.bioPendek)}</p>`:'<p class="mut">Belum dibuat.</p>'}</div>
+ <div class="card"><h3>Draf konten</h3><div class="big">${S.drafts.length}</div><span class="mut">${S.drafts.length?'Terakhir: '+esc(S.drafts[0].judul):'Belum ada draf tersimpan'}</span></div>
+ <div class="card"><h3>Latihan wawancara</h3><div class="big">${ss.length}</div><span class="mut">${ss.length?'Skor rata-rata '+avg+'/100':'Belum ada latihan tersimpan'}</span></div>
+ <div class="card"><h3>Evaluasi branding</h3>${ev&&ev.overall!=null?`<div class="big">${ev.overall}</div><span class="mut">dari 100 · ${esc(ev.date)}</span>`:`<span class="mut">${ev?'Data belum cukup untuk skor keseluruhan.':'Belum dievaluasi.'}</span>`}</div></div>
+ <div class="card"><h2>Langkah berikutnya</h2>${nxt.length?nxt.map(n=>`<div class="item row"><span>${esc(n[0])}</span><button class="btn alt" style="margin:0" onclick="go('${n[1]}')">Buka</button></div>`).join(''):'<p class="ok">Semua langkah utama sudah terpenuhi. Pertahankan konsistensi konten!</p>'}</div>`}
+
+/* ===== Profil ===== */
+const FIELDS=[['nama','Nama lengkap','text',1,'Contoh: Anisa Putri Rahma'],['status','Status / profesi','sel',1,['Mahasiswa','Pencari kerja','Kreator konten','Pelaku usaha','Profesional']],['bidang','Bidang keahlian / minat','text',1,'Contoh: Pemasaran digital'],['pendidikan','Pendidikan / latar belakang','text',0,'Contoh: S1 Manajemen, Universitas ...'],['pengalaman','Pengalaman dan pencapaian','area',0,'Contoh: Ketua divisi humas, menaikkan pengikut organisasi 40% dalam 3 bulan'],['skill','Keterampilan utama','text',1,'Pisahkan dengan koma. Contoh: copywriting, analisis data, desain Canva'],['minat','Minat dan nilai pribadi','text',0,'Contoh: kolaborasi, belajar berkelanjutan'],['unik','Kelebihan / keunikan diri','area',0,'Apa yang membuatmu berbeda dari yang lain?'],['audiens','Target audiens','text',1,'Contoh: rekruter, pemilik UMKM, sesama mahasiswa'],['tujuan','Tujuan personal branding','text',1,'Contoh: mendapatkan magang di bidang pemasaran'],['gaya','Gaya komunikasi','sel',1,['Profesional','Ramah','Kreatif','Formal']]];
+const PLAT=['LinkedIn','Instagram','TikTok','YouTube','X/Twitter','Lainnya'];
+function vProfil(){const p=S.profile||{},lock=!!S.profile;
+ const f=FIELDS.map(([k,l,t,r,h])=>{const v=esc(p[k]||'');let i;
+  if(t==='sel')i=`<select id="f_${k}"><option value="">Pilih...</option>${h.map(o=>`<option ${p[k]===o?'selected':''}>${o}</option>`).join('')}</select>`;
+  else if(t==='area')i=`<textarea id="f_${k}" placeholder="${esc(h)}">${v}</textarea>`;else i=`<input id="f_${k}" value="${v}" placeholder="${esc(h)}">`;
+  return `<div><label>${l}${r?' *':' <span class="hint">(opsional)</span>'}</label>${i}<div class="err" id="e_${k}"></div></div>`}).join('');
+ return `<h1>Profil Saya</h1><p class="mut">Data ini menjadi dasar semua fitur lain. Tanda * wajib diisi.</p><div class="card"><div class="g2">${f}</div>
+ <label>Platform yang ingin digunakan <span class="hint">(opsional)</span></label><div class="chk">${PLAT.map(x=>`<label><input type="checkbox" class="pl" value="${x}" ${(p.platform||[]).includes(x)?'checked':''}>${x}</label>`).join('')}</div>
+ <button class="btn" onclick="saveProfile()">Simpan Profil</button><button class="btn alt" onclick="editProfile()">Edit Profil</button><button class="btn alt" onclick="resetForm()">Reset Formulir</button></div>`+(lock?'<script>0<\/script>':'')}
+function setLock(l){document.querySelectorAll('[id^=f_],.pl').forEach(e=>e.disabled=l)}
+function afterProfil(){setLock(!!S.profile)}
+function saveProfile(){const p={};let bad=0;
+ FIELDS.forEach(([k,l,t,r])=>{p[k]=val('f_'+k);const e=$('e_'+k);e.textContent='';if(r&&!p[k]){e.textContent=l+' wajib diisi.';bad++}});
+ if(p.nama&&p.nama.length<2){$('e_nama').textContent='Nama terlalu pendek.';bad++}
+ if(bad)return toast('Periksa kembali isian yang ditandai.',1);
+ p.platform=[...document.querySelectorAll('.pl:checked')].map(x=>x.value);
+ const old=S.profile;S.profile=p;if(!save()){S.profile=old;return}
+ toast('Profil berhasil disimpan.');if(S.identity&&S.identity.sig!==sig(p))toast('Profil berubah. Buka Identitas Profesional untuk memperbarui hasil.');
+ render();afterProfil()}
+function editProfile(){if(!S.profile)return toast('Belum ada profil tersimpan. Isi formulir lalu simpan.',1);setLock(false);toast('Mode edit aktif. Klik Simpan Profil setelah selesai.')}
+function resetForm(){document.querySelectorAll('[id^=f_]').forEach(e=>{e.value='';e.disabled=false});document.querySelectorAll('.pl').forEach(e=>{e.checked=false;e.disabled=false});toast('Formulir dikosongkan. Profil tersimpan tidak berubah sampai kamu menyimpan.')}
+
+/* ===== Identitas ===== */
+let tmpId=null;
+const GAYA={Profesional:'Lugas, terstruktur, dan berbasis contoh nyata.',Ramah:'Hangat, mudah didekati, dan bersahabat.',Kreatif:'Segar, penuh cerita, dan berani bereksperimen.',Formal:'Sopan, tepat, dan terukur.'};
+function genIdentity(){const p=S.profile,sk=L(p.skill),t=sk.slice(0,3).join(', ')||p.bidang,n=fn(),st=lc(p.status),pf=(p.platform||[]).join(', ')||'media digital';
+ const U=p.unik?p.unik.split(/(?<=[.!?])\s/)[0].replace(/[.!?]*$/,'')+'.':'Selalu belajar dan berkembang bersama orang lain.';
+ const m=L(p.minat).join(', ');
+ const pe=p.pengalaman?p.pengalaman.replace(/\s*\n\s*/g,'; ').replace(/[.;]+$/,''):'';
+ return {ringkasan:`${p.nama} adalah ${st} di bidang ${p.bidang} yang ${pick(['berfokus pada','sedang membangun reputasi untuk','bertekad untuk'])} ${lc(p.tujuan)}. Dengan keahlian di ${t}, ${n} ingin dikenal ${p.audiens?'oleh '+p.audiens:''} sebagai ${pick(['praktisi yang dapat diandalkan','pembelajar cepat yang konsisten memberi hasil','pemecah masalah yang komunikatif'],1)}.`,
+ nilai:`${U}${m?' Nilai yang dipegang: '+m+'.':''}`,
+ keahlian:sk.slice(0,5).map(x=>'• '+x).join('\n')||'• '+p.bidang,
+ audiens:`${p.audiens}. Dijangkau melalui ${pf}.`,
+ pesan:pick([`${n} membantu ${p.audiens} memahami dan memanfaatkan ${p.bidang} dengan cara yang praktis.`,`Di bidang ${p.bidang}, ${t} adalah cara ${n} memberi nilai nyata bagi ${p.audiens}.`,`${n} percaya ${p.bidang} paling berdampak jika dikerjakan dengan ${m||'konsisten'} dan dibagikan secara terbuka.`],2),
+ gaya:`${p.gaya}: ${GAYA[p.gaya]||''}`,gayaKey:p.gaya,
+ bioPendek:pick([`${cap(st)} ${p.bidang} | ${t}. ${U} Terbuka berkolaborasi dengan ${p.audiens}.`,`${t} untuk ${p.audiens}. ${cap(st)} ${p.bidang} dengan fokus ${lc(p.tujuan)}.`,`Hai, saya ${n}, ${st} ${p.bidang}. ${U} Mari terhubung di ${pf}.`],3),
+ bioPanjang:`${p.nama} adalah ${st} di bidang ${p.bidang}${p.pendidikan?', dengan latar belakang '+p.pendidikan:''}. ${pe?'Pengalaman dan pencapaiannya mencakup '+pe+'.':''} Keahlian utamanya meliputi ${t}${m?', dengan minat pada '+m:''}. ${p.unik?'Yang membedakannya: '+p.unik.replace(/\s*\n\s*/g,' ').replace(/[.]+$/,'')+'.':''}\n\nMelalui ${pf}, ${n} ingin ${lc(p.tujuan)} sekaligus berbagi nilai bagi ${p.audiens}. ${pick(['Hubungi '+n+' untuk berdiskusi atau berkolaborasi.','Terbuka untuk berdiskusi dan berkolaborasi — silakan terhubung.','Mari terhubung untuk bertukar ide dan peluang.'],4)}`,
+ tagline:pick([`${cap(sk[0]||p.bidang)} yang berdampak untuk ${p.audiens}`,`Belajar, berkarya, dan berdampak di ${p.bidang}`,`${n}: ${t} dengan hati`],5),
+ sig:sig(p)}}
+const IDF=[['ringkasan','Ringkasan identitas profesional'],['nilai','Nilai / keunggulan utama'],['keahlian','Keahlian yang ditonjolkan'],['audiens','Target audiens'],['pesan','Pesan utama'],['gaya','Gaya komunikasi yang disarankan'],['bioPendek','Bio singkat'],['bioPanjang','Bio profesional lengkap'],['tagline','Tagline']];
+function vId(){if(!S.profile)return '<h1>Identitas Profesional</h1>'+needProfile();
+ const miss=['pendidikan','pengalaman','unik'].filter(k=>!S.profile[k]);
+ const stale=S.identity&&S.identity.sig!==sig(S.profile);const show=tmpId||S.identity;
+ return `<h1>Identitas Profesional</h1><p class="mut">Dirumuskan dari Profil Saya. Semua kolom dapat diedit sebelum disimpan atau disalin.</p>
+ ${miss.length&&!show?`<div class="card warn">Profil belum memuat: ${miss.join(', ')}. Hasil tetap bisa dibuat, tetapi akan lebih kaya jika dilengkapi.</div>`:''}
+ ${stale&&!tmpId?`<div class="card"><b>Profil berubah sejak identitas ini disimpan.</b><p class="mut">Hasil lama tetap aman. Pilih apakah ingin diperbarui.</p><button class="btn" onclick="genId(true)">Perbarui Hasil</button><button class="btn alt" onclick="keepId()">Pertahankan Hasil Lama</button></div>`:''}
+ <button class="btn" onclick="genId()">Buat Identitas Profesional</button><button class="btn alt" onclick="genId(true)" ${show?'':'disabled'}>Buat Ulang</button>
+ ${show?`<div class="card" style="margin-top:14px">${tmpId?'<span class="tag">Belum disimpan</span>':'<span class="tag">Tersimpan</span>'}${IDF.map(([k,l])=>`<label>${l}</label><textarea id="id_${k}" style="min-height:${['bioPanjang','ringkasan'].includes(k)?130:64}px">${esc(show[k])}</textarea>`).join('')}
+ <button class="btn alt" onclick="$('id_ringkasan').focus();toast('Edit langsung pada kolom teks.')">Edit Hasil</button><button class="btn alt" onclick="copyId()">Salin Hasil</button><button class="btn" onclick="saveId()">Simpan Hasil</button></div>`:`<div class="empty" style="margin-top:14px">Belum ada hasil. Klik <b>Buat Identitas Profesional</b>.</div>`}`}
+function genId(re){if(re)S.seed++;tmpId=genIdentity();render();toast('Identitas profesional dibuat. Periksa dan simpan jika sudah sesuai.')}
+function readId(){const o=Object.assign({},tmpId||S.identity);IDF.forEach(([k])=>o[k]=val('id_'+k));return o}
+function saveId(){const o=readId();if(!o.bioPendek||!o.bioPanjang||!o.tagline)return toast('Bio singkat, bio lengkap, dan tagline tidak boleh kosong.',1);
+ const prev=S.identity;S.identity=o;if(!save()){S.identity=prev;return}tmpId=null;render();toast('Identitas profesional disimpan.')}
+function keepId(){S.identity.sig=sig(S.profile);if(save()){render();toast('Hasil lama dipertahankan.')}}
+function copyId(){const o=readId();copyText(IDF.map(([k,l])=>l+'\n'+o[k]).join('\n\n'))}
+
+/* ===== Studio Konten ===== */
+let work=null,ideas=[],openDraft=null;
+const hashes=(c)=>{const p=S.profile;const w=[p.bidang,...L(p.skill).slice(0,3),c.topik].map(x=>'#'+x.replace(/[^\p{L}\p{N}]/gu,'')).filter(x=>x.length>2);const pl={LinkedIn:'#PersonalBranding',Instagram:'#BelajarBareng',TikTok:'#FYP','X/Twitter':'#Thread',YouTube:'#Tutorial'}[c.platform]||'#Profesional';return [...new Set([...w,pl,'#KarirMuda'])].slice(0,7).join(' ')};
+function vStudio(){if(!S.profile)return '<h1>Studio Konten</h1>'+needProfile();
+ const p=S.profile,pls=[...new Set([...(p.platform||[]),'LinkedIn','Instagram','TikTok'])];
+ const o=(a,sel)=>a.map(x=>`<option ${x===sel?'selected':''}>${x}</option>`).join('');
+ const c=work||{};
+ return `<h1>Studio Konten</h1><p class="mut">${S.identity?'Menggunakan identitas profesionalmu: “'+esc(S.identity.tagline)+'”':'Tips: simpan Identitas Profesional dulu agar konten lebih selaras.'}</p>
+ <div class="card"><div class="g2"><div><label>Platform</label><select id="c_platform">${o(pls,c.platform)}</select></div>
+ <div><label>Tujuan konten</label><select id="c_tujuan">${o(['Membangun kredibilitas','Berbagi pengetahuan','Memperluas jaringan','Mempromosikan usaha'],c.tujuan)}</select></div>
+ <div><label>Jenis konten</label><select id="c_jenis">${o(['Edukasi','Cerita pengalaman','Tips','Opini','Promosi'],c.jenis)}</select></div>
+ <div><label>Gaya bahasa</label><select id="c_gaya">${o(['Profesional','Ramah','Kreatif','Formal'],c.gaya||p.gaya)}</select></div>
+ <div><label>Panjang konten</label><select id="c_panjang">${o(['Pendek','Sedang','Panjang'],c.panjang||'Sedang')}</select></div></div>
+ <label>Topik konten <span class="hint">(kosongkan untuk memakai keahlian utamamu)</span></label><input id="c_topik" value="${esc(c.topik||'')}" placeholder="Contoh: cara menyusun CV yang menarik">
+ <button class="btn" onclick="makeIdeas()">Buat Ide Konten</button><button class="btn" onclick="makeCaption()">Buat Caption</button><button class="btn alt" onclick="makeCaption(true)" ${work?'':'disabled'}>Buat Ulang</button></div>
+ ${ideas.length?`<div class="card"><h3>Ide konten</h3>${ideas.map((x,i)=>`<div class="item row"><span>${esc(x)}</span><button class="btn alt" style="margin:0" onclick="useIdea(${i})">Pakai ide ini</button></div>`).join('')}</div>`:''}
+ ${work&&work.text?`<div class="card"><h3>${openDraft?'Draf dibuka':'Hasil konten'}</h3><textarea id="c_text" style="min-height:330px">${esc(work.text)}</textarea>
+ <button class="btn alt" onclick="$('c_text').focus();toast('Edit langsung pada kolom teks.')">Edit Konten</button><button class="btn alt" onclick="copyText(val('c_text'))">Salin Konten</button><button class="btn" onclick="saveDraft()">Simpan ke Draf</button>${openDraft?'<button class="btn danger" onclick="delDraft(\''+openDraft+'\')">Hapus Draf</button>':''}</div>`:`<div class="empty">Belum ada konten. Isi pilihan di atas lalu klik <b>Buat Caption</b>.</div>`}
+ <div class="card"><h3>Draf tersimpan (${S.drafts.length})</h3>${S.drafts.length?S.drafts.map(d=>`<div class="item row"><span><b>${esc(d.judul)}</b><br><span class="mut">${esc(d.platform)} · ${esc(d.date)}</span></span><span><button class="btn alt" style="margin:0 6px 0 0" onclick="openD('${d.id}')">Buka</button><button class="btn danger" style="margin:0" onclick="delDraft('${d.id}')">Hapus</button></span></div>`).join(''):'<p class="mut">Belum ada draf. Simpan hasil konten untuk melihatnya di sini.</p>'}</div>`}
+function cfg(){return {platform:val('c_platform'),tujuan:val('c_tujuan'),jenis:val('c_jenis'),gaya:val('c_gaya'),panjang:val('c_panjang'),topik:val('c_topik')}}
+function makeIdeas(){const c=cfg(),p=S.profile,sk=L(p.skill),tp=c.topik||sk[0]||p.bidang,b=p.bidang,a=p.audiens;S.seed++;
+ const T={Edukasi:[`Panduan singkat ${tp} untuk ${a}`,`Mitos vs fakta seputar ${tp}`,`3 konsep dasar ${tp} yang wajib dipahami`,`Langkah dari nol memulai ${tp}`],'Cerita pengalaman':[`Pelajaran terbesar dari pengalamanku di ${b}`,`Kesalahan pertamaku di ${tp} dan apa yang berubah`,`Perjalananku dari belajar ${tp} sampai hasil nyata`,`Momen yang membuatku memilih ${b}`],Tips:[`5 tips ${tp} yang bisa langsung dipakai ${a}`,`Checklist ${tp} sebelum kamu mulai`,`Kebiasaan kecil yang meningkatkan hasil ${tp}`,`Trik hemat waktu di ${tp}`],Opini:[`Pendapatku: ${tp} sering disalahpahami`,`Mengapa ${a} perlu peduli pada ${tp}`,`Yang jarang dibicarakan tentang ${b}`,`Setuju atau tidak: ${tp} bukan soal bakat`],Promosi:[`Bagaimana ${tp} bisa membantu ${a}`,`Di balik layar: cara kerjaku di ${tp}`,`Studi kasus singkat hasil kerja ${tp}`,`Apa yang kamu dapat saat berkolaborasi denganku di ${b}`]};
+ const base=T[c.jenis]||T.Tips,r=S.seed%base.length;ideas=[...base.slice(r),...base.slice(0,r)].slice(0,4);
+ ideas.push(S.identity?`Bagikan pesan utamamu: ${S.identity.pesan}`:`Perkenalan diri: siapa aku dan apa yang kukerjakan di ${b}`);work=Object.assign(work||{},c);save();render();toast('Ide konten dibuat.')}
+function useIdea(i){$('c_topik').value=ideas[i];toast('Ide dipilih sebagai topik. Klik Buat Caption.')}
+function makeCaption(re){const c=cfg();if(re)S.seed++;const p=S.profile,sk=L(p.skill),tp=c.topik||sk[0]||p.bidang,n=fn(),a=p.audiens,id=S.identity;
+ const ek=c.gaya==='Ramah'?' 😊':c.gaya==='Kreatif'?' ✨':'';
+ const H={Edukasi:[`Tahukah kamu? ${cap(tp)} lebih mudah dari yang dibayangkan${ek}`,`Panduan ringkas ${tp} untuk ${a}`],'Cerita pengalaman':[`Dulu aku kesulitan dengan ${tp}. Ini yang mengubahnya${ek}`,`Satu pengalaman di ${p.bidang} yang tak akan kulupakan`],Tips:[`${cap(tp)}: tips yang kuharap kutahu lebih awal${ek}`,`Tiga langkah cepat menguasai ${tp}`],Opini:[`Pendapatku tentang ${tp} mungkin tidak populer`,`Mari bicara jujur soal ${tp}`],Promosi:[`Butuh bantuan di ${tp}? Mari kenalan${ek}`,`Inilah cara aku membantu ${a}`]}[c.jenis];
+ const pool=[`Sebagai ${lc(p.status)} di ${p.bidang}, aku belajar bahwa ${tp} berjalan baik jika didukung ${sk.slice(0,2).join(' dan ')||'dasar yang kuat'}.`,
+ p.pengalaman?`Dari pengalamanku — ${p.pengalaman.split(/\n|;/)[0].replace(/[.]+$/,'')} — aku melihat langsung pentingnya konsistensi.`:`Konsistensi kecil setiap hari membuat ${tp} terasa ringan.`,
+ `Untuk ${a}: mulai dari satu langkah kecil, ukur hasilnya, lalu perbaiki.`,
+ p.unik?`Satu hal yang kupegang: ${p.unik.split(/(?<=[.!?])\s/)[0].replace(/[.]+$/,'')}.`:`Kuncinya adalah terus belajar dan berbagi.`];
+ const k={Pendek:2,Sedang:3,Panjang:4}[c.panjang]||3,body=pool.slice(0,k).join(c.platform==='LinkedIn'?'\n\n':'\n');
+ const CT={'Membangun kredibilitas':`Setuju? Tulis pengalamanmu di kolom komentar, aku ingin belajar dari sudut pandangmu.`,'Berbagi pengetahuan':`Simpan postingan ini dan bagikan ke temanmu yang membutuhkan.`,'Memperluas jaringan':`Yuk terhubung! Kirim pesan jika ingin berdiskusi tentang ${p.bidang}.`,'Mempromosikan usaha':`Tertarik berkolaborasi? Hubungi aku lewat pesan langsung.`}[c.tujuan];
+ const hook=pick(H,6);let cap_=c.platform==='TikTok'?`[Hook 0–3 detik] ${hook}\n[Isi] ${body.replace(/\n+/g,' ')}\n[Penutup] ${CT}`:body.split('\n')[0]+(c.platform==='Instagram'?' 👇':'');
+ const nx=[`Buat versi ${c.platform==='TikTok'?'carousel Instagram':'video pendek'} dari topik yang sama.`,`Lanjutkan dengan seri 3 bagian: ${tp} untuk pemula, menengah, dan lanjutan.`,`Uji dua hook berbeda lalu bandingkan respons ${a}.`];
+ const text=`Judul / hook:\n${hook}\n\nCaption:\n${cap_}\n\nIsi konten:\n${body}\n\nCall to action:\n${CT}\n\nHashtag:\n${hashes(c)}\n\nPengembangan berikutnya:\n${pick(nx,7)}${id?'\n\n(Selaras dengan tagline: '+id.tagline+')':''}`;
+ work=Object.assign(c,{text,judul:hook});if(!re)openDraft=null;render();toast('Konten dibuat. Edit jika perlu, lalu simpan ke draf.')}
+function saveDraft(){const t=val('c_text');if(!t)return toast('Konten kosong, tidak dapat disimpan.',1);const c=Object.assign({},work,cfg());
+ const judul=(t.split('\n')[1]||c.judul||'Draf tanpa judul').slice(0,70);const d={id:openDraft||'d'+Date.now(),judul,platform:c.platform,gaya:c.gaya,tujuan:c.tujuan,jenis:c.jenis,panjang:c.panjang,topik:c.topik,text:t,date:new Date().toLocaleDateString('id-ID')};
+ const prev=JSON.stringify(S.drafts);const i=S.drafts.findIndex(x=>x.id===d.id);if(i>=0)S.drafts[i]=d;else S.drafts.unshift(d);
+ if(!save()){S.drafts=JSON.parse(prev);return}openDraft=d.id;work=Object.assign(c,{text:t});render();toast('Draf disimpan.')}
+function openD(id){const d=S.drafts.find(x=>x.id===id);if(!d)return;work=Object.assign({},d);openDraft=id;render();window.scrollTo(0,0);toast('Draf dibuka. Kamu dapat mengeditnya.')}
+function delDraft(id){if(!confirm('Hapus draf ini? Tindakan tidak dapat dibatalkan.'))return;S.drafts=S.drafts.filter(x=>x.id!==id);if(save()){if(openDraft===id){openDraft=null;work=null}render();toast('Draf dihapus.')}}
+
+/* ===== Simulasi Wawancara ===== */
+const QB={'Wawancara kerja':['Ceritakan tentang dirimu dan mengapa kamu cocok untuk posisi {pos}.','Apa kelebihan utamamu yang relevan dengan {pos}?','Ceritakan pengalaman menyelesaikan masalah sulit.','Ceritakan kegagalan dan apa yang kamu pelajari.','Di mana kamu melihat dirimu dalam 5 tahun?'],Magang:['Perkenalkan dirimu dan alasan memilih magang di bidang {pos}.','Keterampilan apa yang bisa kamu kontribusikan dalam magang ini?','Ceritakan pengalaman kerja tim yang berkesan.','Bagaimana kamu menangani tugas baru yang belum pernah dikerjakan?','Apa yang ingin kamu capai selama magang?'],Beasiswa:['Ceritakan latar belakang dan motivasimu mengajukan beasiswa ini.','Prestasi apa yang paling kamu banggakan?','Bagaimana rencanamu memberi dampak bagi masyarakat di bidang {pos}?','Tantangan terbesar yang pernah kamu hadapi dan cara mengatasinya?','Mengapa kamu layak dipilih dibanding pelamar lain?'],'Perkenalan profesional':['Perkenalkan dirimu dalam satu menit.','Apa yang sedang kamu kerjakan di bidang {pos}?','Apa keunikanmu dibanding orang lain di bidang yang sama?','Jenis kolaborasi apa yang kamu cari?','Apa satu pencapaian yang ingin kamu ceritakan?']};
+let IV={phase:'setup',cfg:{},qs:[],i:0,ans:[],fb:false,rec:null};
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+function vIv(){if(!S.profile)return '<h1>Simulasi Wawancara</h1>'+needProfile();
+ const o=(a,s)=>a.map(x=>`<option ${x===s?'selected':''}>${x}</option>`).join('');
+ if(IV.phase==='setup')return `<h1>Simulasi Wawancara</h1><p class="mut">Pertanyaan disesuaikan dengan profilmu. Penilaian hanya menilai isi jawaban teks — bukan ekspresi wajah, emosi, atau kualitas suara.</p>
+ <div class="card"><div class="g2"><div><label>Jenis wawancara</label><select id="v_jenis">${o(Object.keys(QB),IV.cfg.jenis)}</select></div><div><label>Posisi / bidang tujuan</label><input id="v_pos" value="${esc(IV.cfg.pos||S.profile.bidang)}"></div>
+ <div><label>Tingkat kesulitan</label><select id="v_lv">${o(['Mudah','Sedang','Sulit'],IV.cfg.lv||'Sedang')}</select></div>
+ <div><label>Mode latihan</label><select id="v_mode"><option>Teks</option><option ${SR?'':'disabled'}>Suara ${SR?'':'(tidak didukung browser ini)'}</option></select></div></div>
+ <button class="btn" onclick="startIv()">Mulai Latihan</button></div>
+ ${S.sessions.length?`<div class="card"><h3>Riwayat latihan</h3>${S.sessions.map(s=>`<div class="item">${esc(s.jenis)} · ${esc(s.pos)} · ${esc(s.date)} — <b>${s.avg}/100</b></div>`).join('')}</div>`:''}`;
+ if(IV.phase==='done'){const avg=ivAvg();return `<h1>Ringkasan Latihan</h1><div class="card"><div class="big">${avg}/100</div><p class="mut">${esc(IV.cfg.jenis)} · ${esc(IV.cfg.pos)} · ${IV.ans.length} pertanyaan</p>${IV.ans.map((a,i)=>`<div class="item"><b>${i+1}. ${esc(a.q)}</b><br>Skor ${a.total}/100 — ${esc(a.tip)}</div>`).join('')}
+ <p><b>Saran utama:</b> ${esc(ivSummary())}</p><button class="btn alt" onclick="IV={phase:'setup',cfg:IV.cfg,qs:[],i:0,ans:[]};render()">Ulangi Latihan</button><button class="btn" onclick="saveIv()" ${IV.saved?'disabled':''}>Simpan Hasil</button></div>`}
+ const q=IV.qs[IV.i],a=IV.ans[IV.i];
+ return `<h1>Pertanyaan ${IV.i+1} dari ${IV.qs.length}</h1><div class="card"><div class="bar"><i style="width:${(IV.i+(a?1:0))/IV.qs.length*100}%"></i></div><h2>${esc(q)}</h2>
+ <textarea id="v_ans" style="min-height:140px" placeholder="Tulis jawabanmu di sini..." ${a?'disabled':''}>${a?esc(a.a):''}</textarea>
+ ${IV.cfg.mode==='Suara'&&!a?`<button class="btn alt" onclick="mic()" id="micb">🎙️ Rekam Suara</button>`:''}
+ <button class="btn" onclick="sendAns()" ${a?'disabled':''}>Kirim Jawaban</button>
+ ${a?`<button class="btn alt" onclick="IV.fb=!IV.fb;render()">Lihat Umpan Balik</button><button class="btn" onclick="nextQ()">${IV.i+1<IV.qs.length?'Pertanyaan Berikutnya':'Lihat Ringkasan'}</button>`:''}
+ ${a?`<div class="item" style="margin-top:12px"><b>Skor: ${a.total}/100</b> <span class="mut">(relevansi ${a.m.rel}, kejelasan ${a.m.jel}, struktur ${a.m.str}, contoh konkret ${a.m.kon})</span></div>`:''}
+ ${a&&IV.fb?`<div class="item"><b>Umpan balik</b><ul>${a.notes.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><b>Contoh jawaban yang lebih baik (berdasarkan profilmu)</b><p>${esc(a.sample)}</p></div>`:''}</div>`}
+function startIv(){const jenis=val('v_jenis'),pos=val('v_pos');if(!pos)return toast('Isi posisi atau bidang tujuan.',1);
+ const lv=val('v_lv'),mode=val('v_mode').startsWith('Suara')?'Suara':'Teks',n={Mudah:3,Sedang:4,Sulit:5}[lv];
+ IV={phase:'ask',cfg:{jenis,pos,lv,mode},qs:QB[jenis].slice(0,n).map(q=>q.replace(/\{pos\}/g,pos)+(lv==='Sulit'?' Sertakan contoh konkret dan hasil terukur.':'')),i:0,ans:[],fb:false};render()}
+function mic(){if(!SR)return toast('Browser tidak mendukung pengenalan suara. Gunakan mode teks.',1);
+ if(IV.rec){IV.rec.stop();return}const r=new SR();r.lang='id-ID';r.interimResults=false;r.continuous=true;IV.rec=r;const b=$('micb');b.textContent='⏹️ Berhenti merekam';
+ r.onresult=e=>{let t='';for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)t+=e.results[i][0].transcript+' ';$('v_ans').value=(val('v_ans')+' '+t).trim()};
+ r.onerror=e=>{toast(e.error==='not-allowed'?'Izin mikrofon ditolak. Aktifkan izin atau gunakan mode teks.':'Pengenalan suara gagal: '+e.error,1)};
+ r.onend=()=>{IV.rec=null;const x=$('micb');if(x)x.textContent='🎙️ Rekam Suara'};try{r.start();toast('Mikrofon aktif. Silakan bicara.')}catch(e){IV.rec=null;toast('Tidak dapat memulai rekaman.',1)}}
+function evalAns(q,a){const p=S.profile,w=a.split(/\s+/).filter(Boolean),n=w.length,sen=(a.match(/[.!?]+/g)||[]).length;
+ const kw=[...L(p.skill),p.bidang,IV.cfg.pos,...q.split(/\s+/)].join(' ').toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(x=>x.length>4);const al=lc(a);const hit=[...new Set(kw)].filter(x=>al.includes(x)).length;
+ const rel=Math.min(100,20+hit*14);const jel=n<15?25:n<40?25+(n-15)*2.6:n<=160?92:n<=230?75:55;
+ const sh=(al.match(/pertama|kedua|selanjutnya|kemudian|karena|sehingga|hasilnya|situasi|tugas|tindakan|akhirnya|oleh karena/g)||[]).length;const str=Math.min(100,25+sh*14+(sen>=3?18:0)+(sen>=5?10:0));
+ const cn=(al.match(/misalnya|contohnya|ketika|saat saya|pernah|proyek|organisasi|\d+/g)||[]).length;const kon=Math.min(100,15+cn*22);
+ const m={rel:Math.round(rel),jel:Math.round(jel),str:Math.round(str),kon:Math.round(kon)};const total=Math.round((m.rel+m.jel+m.str+m.kon)/4);
+ const notes=[];if(m.rel<60)notes.push(`Kaitkan jawaban lebih jelas dengan pertanyaan dan bidang ${p.bidang} (sebut keahlian seperti ${L(p.skill).slice(0,2).join(', ')}).`);else notes.push('Jawabanmu sudah relevan dengan pertanyaan dan profilmu.');
+ if(m.jel<60)notes.push(n<40?'Jawaban terlalu singkat. Targetkan sekitar 40–150 kata.':'Jawaban terlalu panjang. Ringkas ke poin terpenting.');
+ if(m.str<60)notes.push('Susun dengan alur: situasi → tindakan → hasil, dan gunakan kata penghubung.');
+ if(m.kon<60)notes.push('Tambahkan satu contoh nyata, angka, atau hasil terukur.');
+ const pe=(p.pengalaman||'').split(/\n|;/)[0].trim().replace(/[.]+$/,''),sk=L(p.skill).slice(0,2).join(' dan ');
+ const sample=`Saya ${p.nama}, ${lc(p.status)} di bidang ${p.bidang}. Keahlian utama saya adalah ${sk||p.bidang}. ${pe?'Misalnya, '+pe+'. ':'Misalnya, saya pernah menyelesaikan proyek yang melatih keahlian tersebut. '}Dari pengalaman itu, hasilnya terasa bagi ${p.audiens}. Karena itu, saya yakin dapat berkontribusi sebagai ${IV.cfg.pos} dan ingin ${lc(p.tujuan)}.`;
+ const low=Object.entries(m).sort((x,y)=>x[1]-y[1])[0][0];const tip={rel:'tingkatkan relevansi',jel:'atur panjang jawaban',str:'perbaiki struktur',kon:'tambahkan contoh konkret'}[low];
+ return {q,a,m,total,notes,sample,tip:'prioritas: '+tip,low}}
+function sendAns(){if(IV.rec)IV.rec.stop();const a=val('v_ans');if(a.length<10)return toast('Tulis jawaban minimal beberapa kalimat sebelum mengirim.',1);IV.ans[IV.i]=evalAns(IV.qs[IV.i],a);IV.fb=false;render();toast('Jawaban dinilai. Klik Lihat Umpan Balik untuk detail.')}
+function nextQ(){if(IV.i+1<IV.qs.length){IV.i++;IV.fb=false}else IV.phase='done';render();window.scrollTo(0,0)}
+const ivAvg=()=>Math.round(IV.ans.reduce((s,a)=>s+a.total,0)/IV.ans.length);
+function ivSummary(){const c={};IV.ans.forEach(a=>c[a.low]=(c[a.low]||0)+1);const k=Object.entries(c).sort((x,y)=>y[1]-x[1])[0][0];return {rel:'Eratkan jawaban dengan bidang dan keahlianmu.',jel:'Atur panjang jawaban agar ringkas namun lengkap.',str:'Biasakan alur situasi–tindakan–hasil.',kon:'Siapkan 3 cerita pengalaman konkret dengan angka.'}[k]}
+function saveIv(){const s={jenis:IV.cfg.jenis,pos:IV.cfg.pos,lv:IV.cfg.lv,avg:ivAvg(),n:IV.ans.length,date:new Date().toLocaleDateString('id-ID')};S.sessions.unshift(s);if(save()){IV.saved=true;render();toast('Hasil latihan disimpan.')}else S.sessions.shift()}
+
+/* ===== Evaluasi ===== */
+function compute(){const p=S.profile,id=S.identity,d=S.drafts,I=[];
+ const kw=[...L(p.skill),...L(p.bidang)].map(lc).filter(x=>x.length>2),aud=lc(p.audiens).split(/[^\p{L}]+/u).filter(x=>x.length>3);
+ const add=(key,label,score,why,tip)=>I.push({key,label,score:score==null?null:Math.max(0,Math.min(100,Math.round(score))),why,tip});
+ add('a','Kejelasan identitas profesional',id?(IDF.filter(([k])=>String(id[k]||'').length>(k==='tagline'?5:20)).length/IDF.length*60+completeness()*.4):null,'Identitas profesional belum disimpan.','Lengkapi profil dan semua kolom identitas, lalu simpan.');
+ const dt=x=>lc(x.text);
+ add('b','Konsistensi profil dan konten',d.length?40+60*d.filter(x=>kw.some(k=>dt(x).includes(k))).length/d.length:null,'Belum ada draf konten tersimpan.','Sebut keahlian utamamu dalam setiap konten.');
+ const uw=lc(p.unik).split(/[^\p{L}]+/u).filter(x=>x.length>4),idt=id?lc(id.bioPendek+id.bioPanjang+id.nilai):'';
+ add('c','Kejelasan keunggulan / nilai unik',Math.min(60,(p.unik||'').length/2)+(id&&uw.filter(w=>idt.includes(w)).length>=2?40:0),'','Tulis keunikanmu lebih spesifik di profil dan pastikan muncul di bio.');
+ add('d','Kesesuaian konten dengan target audiens',d.length?30+35*d.filter(x=>aud.some(w=>dt(x).includes(w))).length/d.length+35*d.filter(x=>(p.platform||[]).includes(x.platform)).length/d.length:null,'Belum ada draf konten tersimpan.','Sapa target audiens dan gunakan platform pilihanmu di profil.');
+ const bp=id?id.bioPanjang:'';add('e','Kualitas bio profesional',id?(bp.length>=300&&bp.length<=1200?40:Math.min(40,bp.length/300*40))+(lc(bp).includes(lc(p.nama.split(' ')[0]))?20:0)+(kw.some(k=>lc(bp).includes(k))?20:0)+(/hubungi|terhubung|kolaborasi|berdiskusi/.test(lc(bp))?20:0):null,'Bio profesional belum disimpan.','Bio idealnya 300–1200 karakter, memuat nama, keahlian, dan ajakan terhubung.');
+ const gs=[...d.map(x=>x.gaya===p.gaya?1:0),...(id?[id.gayaKey===p.gaya?1:0]:[])];
+ add('f','Konsistensi gaya komunikasi',gs.length?Math.max(20,gs.reduce((a,b)=>a+b,0)/gs.length*100):null,'Belum ada identitas atau draf konten.','Gunakan gaya yang sama di identitas dan konten, atau perbarui profil.');
+ const r=I.filter(x=>x.score!==null);return {items:I,overall:r.length>=3?Math.round(r.reduce((a,b)=>a+b.score,0)/r.length):null,date:new Date().toLocaleString('id-ID')}}
+function vEval(){if(!S.profile)return '<h1>Evaluasi Personal Branding</h1>'+needProfile();const e=S.evaluation;
+ let h=`<h1>Evaluasi Personal Branding</h1><p class="mut">Dihitung dari profil, bio, dan draf yang tersimpan. <b>Hasil bersifat indikatif, bukan pengukuran profesional yang tervalidasi.</b></p><button class="btn" onclick="runEval()">Evaluasi Personal Branding</button>`;
+ if(!e)return h+'<div class="empty" style="margin-top:14px">Belum ada evaluasi. Klik tombol di atas.</div>';
+ const r=e.items.filter(i=>i.score!==null),good=r.filter(i=>i.score>=75),imp=r.filter(i=>i.score<60),pri=[...r].filter(i=>i.score<75).sort((a,b)=>a.score-b.score);
+ const col=s=>s>=75?'ok':s>=55?'warn':'bad';
+ return h+`<div class="card" style="margin-top:14px"><h3>Skor keseluruhan</h3>${e.overall!=null?`<div class="big">${e.overall}<span class="mut" style="font-size:1rem">/100</span></div>`:'<p class="warn">Belum dapat dihitung: minimal 3 indikator harus memiliki data.</p>'}<span class="mut">Dievaluasi ${esc(e.date)}</span></div>
+ <div class="grid">${e.items.map(i=>`<div class="card"><h3>${i.label}</h3>${i.score!==null?`<div class="big ${col(i.score)}">${i.score}</div><div class="bar"><i style="width:${i.score}%"></i></div><p class="mut">${i.score<75?'Saran: '+i.tip:'Sudah baik.'}</p>`:`<p class="warn"><b>Belum dapat dinilai.</b></p><p class="mut">${i.why}</p>`}</div>`).join('')}</div>
+ <div class="g2"><div class="card"><h3>Kelebihan yang sudah dimiliki</h3>${good.length?'<ul>'+good.map(i=>`<li>${i.label} (${i.score})</li>`).join('')+'</ul>':'<p class="mut">Belum ada indikator dengan skor ≥ 75.</p>'}</div>
+ <div class="card"><h3>Aspek yang perlu ditingkatkan</h3>${imp.length?'<ul>'+imp.map(i=>`<li>${i.label} (${i.score})</li>`).join('')+'</ul>':'<p class="mut">Tidak ada indikator dengan skor &lt; 60.</p>'}</div></div>
+ <div class="card"><h3>Prioritas perbaikan dan tindakan berikutnya</h3>${pri.length?'<ol>'+pri.map(i=>`<li><b>${i.label}</b>: ${i.tip}</li>`).join('')+'</ol>':'<p class="ok">Tidak ada prioritas mendesak. Pertahankan dan evaluasi ulang berkala.</p>'}${e.items.some(i=>i.score===null)?'<p class="warn">Lengkapi data untuk indikator yang belum dapat dinilai agar skor lebih akurat.</p>':''}</div>`}
+function runEval(){S.evaluation=compute();if(save()){render();toast('Evaluasi selesai.')}}
+
+/* ===== Pengaturan ===== */
+function vSet(){const p=S.profile;return `<h1>Pengaturan</h1>
+ <div class="card"><h3>Profil dan gaya komunikasi</h3><button class="btn alt" onclick="go('profil')">Edit profil</button>
+ <label>Gaya komunikasi</label><select id="s_gaya" ${p?'':'disabled'}>${['Profesional','Ramah','Kreatif','Formal'].map(x=>`<option ${p&&p.gaya===x?'selected':''}>${x}</option>`).join('')}</select><button class="btn" onclick="setGaya()" ${p?'':'disabled'}>Simpan gaya</button>${p?'':'<p class="mut">Isi profil terlebih dahulu.</p>'}</div>
+ <div class="card"><h3>Penyimpanan lokal</h3><p>Data tersimpan di <b>browser perangkat ini</b>, dapat hilang jika data browser dibersihkan, dan tidak ikut terbawa ke perangkat lain. Ekspor JSON secara berkala sebagai cadangan.</p>
+ <p class="mut">Isi saat ini: profil ${p?'ada':'belum ada'}, ${S.drafts.length} draf, ${S.sessions.length} latihan, identitas ${S.identity?'ada':'belum ada'}.</p>
+ <button class="btn" onclick="exportJ()">Ekspor ke JSON</button><button class="btn alt" onclick="$('imp').click()">Impor dari JSON</button><input type="file" id="imp" accept=".json,application/json" style="display:none" onchange="importJ(this)">
+ <button class="btn danger" onclick="wipe()">Hapus Semua Data</button></div>`}
+function setGaya(){S.profile.gaya=val('s_gaya');if(save()){toast('Gaya komunikasi diperbarui. Buat ulang identitas jika ingin menyesuaikan.');render()}}
+function exportJ(){try{const b=new Blob([JSON.stringify(Object.assign({app:'brandup',v:1},S),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='brandup-data.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),500);toast('File JSON diunduh.')}catch(e){toast('Ekspor gagal.',1)}}
+function importJ(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onerror=()=>toast('File tidak dapat dibaca.',1);
+ r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||typeof d!=='object'||d.app!=='brandup'||!Array.isArray(d.drafts||[])||!Array.isArray(d.sessions||[]))throw 0;
+  if(d.profile&&typeof d.profile!=='object')throw 0;if(!confirm('Impor akan menimpa data saat ini. Lanjutkan?'))return;
+  const prev=S;S=Object.assign(blank(),{profile:d.profile||null,identity:d.identity||null,drafts:d.drafts||[],sessions:d.sessions||[],evaluation:d.evaluation||null,seed:+d.seed||0});
+  if(!save()){S=prev;return}tmpId=null;work=null;ideas=[];render();toast('Data berhasil diimpor.')}catch(e){toast('File JSON tidak valid untuk aplikasi ini.',1)}inp.value=''};r.readAsText(f)}
+function wipe(){if(!confirm('Hapus SEMUA data lokal (profil, identitas, draf, latihan, evaluasi)? Tindakan tidak dapat dibatalkan.'))return;
+ try{localStorage.removeItem(KEY)}catch(e){return toast('Gagal menghapus data.',1)}S=blank();tmpId=null;work=null;ideas=[];IV={phase:'setup',cfg:{},qs:[],i:0,ans:[]};render();toast('Semua data lokal dihapus.')}
+
+/* ===== Mulai ===== */
+const _render=render;render=function(){_render();if(cur==='profil')afterProfil()};
+cur=(location.hash||'').slice(1);if(!PAGES.some(p=>p[0]===cur))cur='dashboard';render();
+</script>
+</body>
+</html>
